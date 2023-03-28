@@ -30,8 +30,12 @@ git commit -m "hello world"
 
 ### commit 格式规范:
 
-- 每条 commit 记录都由 `header`(标题行)、`body`(详细描述)、`footer`(尾部标注) 组成。其中，Header 是必需的，Body 和 Footer 可以省略。
-- Header 由 type(类型(必需))、scope(修改范围(可选))、subject(简短描述(必需))组成。
+- 每条 commit 记录都由 `header`、`body`、`footer` 组成。其中，Header 是必需的，Body 和 Footer 可以省略。
+  - Header: 由 type(类型(必需))、scope(修改范围(可选))、subject(简短描述(必需))组成。
+  - Body: 对本次 commit 的详细描述。应该说明代码变动的动机，以及与以前行为的对比。
+  - Footer: 只用于两种情况。
+    - 1.如果是一个大的变动，则 Footer 部分以 BREAKING CHANGE 开头，后面是对变动的描述。
+    - 2.issue 相关(e.g. "fix #123", "re #123".)。
 
 ```
 <type>(<scope>): <subject>
@@ -44,17 +48,17 @@ git commit -m "hello world"
 - 认识 header 中的 type(更新的类型)：
   | Type | 作用 |
   | -------- | -------------------------------------------------------------------------------------- |
-  | feat | 新增特性 (feature) |
-  | fix | 修复 Bug(bug fix) |
-  | docs | 修改文档 (documentation) |
-  | style | 代码格式修改(white-space, formatting, missing semi colons, etc) |
-  | refactor | 代码重构(refactor) |
+  | feat | 新增特性 (A new feature) |
+  | fix | 修复 Bug(A bug fix) |
+  | docs | 修改文档 (Documentation only changes) |
+  | style | 不影响代码运行的格式改动(Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)) |
+  | refactor | 代码重构，即没有修复 bug 也没有新增功能(A code change that neither fixes a bug nor adds a feature) |
   | perf | 改善性能(A code change that improves performance) |
-  | test | 测试(when adding missing tests) |
-  | build | 变更项目构建或外部依赖（例如 scopes: webpack、gulp、npm 等） |
-  | ci | 更改持续集成软件的配置文件和 package 中的 scripts 命令，例如 scopes: Travis, Circle 等 |
-  | chore | 变更构建流程或辅助工具(比如更改测试环境) |
-  | revert | 代码回退 |
+  | test | 测试(Adding missing tests or correcting existing tests) |
+  | build | 变更项目构建或外部依赖,例如: webpack、gulp、npm 等。(Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)) |
+  | ci | 对 CI(持续集成软件) 配置文件和脚本的变动，例如: Travis, Circle 等。(Changes to our CI configuration files and scripts (example scopes: Travis,Circle,BrowserStack,SauceLabs) )|
+  | chore | 不涉及 src 或测试文件的代码变更(Other changes that don't modify src or test files) |
+  | revert | 代码回退(Reverts a previous commit) |
 
 ### Commitizen 工具的使用
 
@@ -66,7 +70,7 @@ git commit -m "hello world"
 npm install commitizen -D
 ```
 
-2.安装 cz-conventional-changelog，并且初始化 cz-conventional-changelog（这个工具可以提供规范选项按要求操作即可）：
+2.安装 cz-conventional-changelog，并且初始化 cz-conventional-changelog（这个工具可以提供规范选项按步骤操作即可）：
 
 ```ssh
 npx commitizen init cz-conventional-changelog --save-dev --save-exact
@@ -128,16 +132,31 @@ Write a short, imperative tense description of the change (max 94 chars):
 Provide a longer description of the change: (press enter to skip)
 ```
 
-- 第五步否是一次重大的更改（注意，如果选择是，那么 body 即详细描述就是必须的）：
+- 第五步否是一次重大的更改：
 
-```
-Are there any breaking changes?
+```bash
+Are there any breaking changes (y/N)?
+# 注意:如果选择y，那么 body 即详细描述就是必需的，另外还需要填入 对重大变动的描述(footer)
+Describe the breaking changes:
 ```
 
-- 第六步是否影响某个 open issue（footer 部分）：
+- 第六步是否影响某个 open issue：
 
-```
+```bash
 Does this change affect any open issues? (y/N)
+# 注意:如果选择y，还需要填入影响的相关issue(footer)
+Add issue references (e.g. "fix #123", "re #123".)
+```
+
+- 最后展示成果(全部信息都填了的效果，包括 y/N 都选择了 y)
+
+```bash
+docs(commit.md): edit commit.md
+commit.md need to update
+
+BREAKING CHANGE: test break change to be changed y
+
+fix #pretend to exist an open issue，and solved it just now
 ```
 
 #### 代码提交验证
@@ -194,6 +213,8 @@ npx husky-init && npm install
     "prepare": "husky install"
 }
 ```
+
+- 注意: 这里我们只限制 git commit 规范。所以会把 pre-commit 文件删除。
 
 二. Add hook：使用 husky add .增加另一个钩子（`husky add <file> [cmd]`）
 
