@@ -128,7 +128,7 @@ Write a short, imperative tense description of the change (max 94 chars):
 Provide a longer description of the change: (press enter to skip)
 ```
 
-- 第五步否是一次重大的更改(footer 部分)：
+- 第五步否是一次重大的更改（注意，如果选择是，那么 body 即详细描述就是必须的）：
 
 ```
 Are there any breaking changes?
