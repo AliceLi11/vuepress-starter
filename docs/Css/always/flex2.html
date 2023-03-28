@@ -1,0 +1,49 @@
+<!--
+ * @Descripttion: 
+ * @Author: suanmei
+ * @Date: 2023-03-27 14:46:38
+ * @LastEditors: suanmei
+ * @LastEditTime: 2023-03-27 14:54:02
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 500px;
+      height: 100px;
+      display: flex;
+    }
+ 
+    .box div {
+      background-color: hotpink;
+      width: 100px;
+    }
+ 
+    .box div:nth-child(1) {
+      flex-grow: 1;
+    }
+ 
+    .box div:nth-child(2) {
+      flex-grow: 3;
+      background-color: green;
+    }
+    .box div:nth-child(3) {
+      flex-grow: 1;
+      background-color: yellow;
+    }
+ 
+ 
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+  </div>
+</body>
+</html>
