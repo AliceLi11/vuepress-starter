@@ -6,7 +6,8 @@ const navList =[
         items:[
             {text:'Typescript',link:'/TypeScript/ConditionalTypes' },
             {text:'Css',link:'/Css/base'},
-            {text:'Git',link:'/Git/standard/commit'}
+            {text:'Git',link:'/Git/standard/commit'},
+            {text:'UnitTest',link:'/UnitTest/standard/commit'}
         ]
     },
     { 
@@ -56,6 +57,22 @@ const sidebarList = {
             children:[
                 { title: "git commit规范", path: "/Git/standard/commit" },
             ]
+        },
+        {
+            title: "自定义git",
+            collapsable:false,// 不折叠
+            children:[
+                { title: "git hooks", path: "/Git/custom/hooks" },
+            ]
+        }
+    ],
+    '/UnitTest/':[
+        {
+            title: "基础",
+            collapsable:false,// 不折叠
+            // children:[
+            //     { title: "git commit规范", path: "/Git/standard/commit" },
+            // ]
         }
     ]
 }

@@ -192,7 +192,17 @@ npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
 
 ### husky 工具了解
 
-> [husky](https://typicode.github.io/husky/#/?id=articles) 是一个 git hook 工具，可以帮助我们触发 git 提交的各个阶段：pre-commit、commit-msg、pre-push
+> [husky](https://typicode.github.io/husky/#/?id=articles) 是一个 [git hook](https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90) 工具，可以帮助我们触发 git 提交的各个阶段：pre-commit、commit-msg、pre-push
+
+#### 认识 git hook
+
+- 作用:
+  - git hook 让我们可以在 git 执行一些行为的前后时机，执行一些自定义脚本。<br>
+- 安装钩子:
+  - 钩子都被存储在 Git 目录下的 `hooks` 子目录中。当你用 `git init`初始化一个新版本库时，Git 默认会在 `.git/hooks` 中放置一些示例脚本，这些示例的名称都是以`.sample`结尾。这些脚本除了本身可以被调用外，它们还透露了被触发时所传入的参数。 所有的示例都是 shell 脚本。如果你想启用它们，得先移除这个后缀，这样一来，它就能被 Git 调用。
+- 钩子种类(我们这里主要看两个提交相关的钩子):
+  - `pre-commit`钩子: 在键入提交信息前运行。它用于检查即将提交的快照。例如，检查是否有所遗漏，确保测试运行，以及核查代码。 如果该钩子以非零值退出，Git 将放弃此次提交，不过你可以用 `git commit --no-verify` 来绕过这个环节。 你可以利用该钩子，来检查代码风格是否一致（运行类似 lint 的程序）、尾随空白字符是否存在（自带的钩子就是这么做的），或新方法的文档是否适当。
+  - `commit-msg`: 钩子接收一个参数，存有当前提交信息的临时文件的路径。 如果该钩子脚本以非零值退出，Git 将放弃提交，因此，可以用来在提交通过前验证项目状态或提交信息。
 
 #### 使用
 
@@ -259,4 +269,6 @@ git commit -m "chore: lint on commitmsg"
 
 ### 友情链接
 
-[Commit message 和 Change log 编写指南](https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
+[阮一峰:Commit message 和 Change log 编写指南](https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)<br>
+[Git 官方文档](https://git-scm.com/book/zh/v2)<br>
+[Git hook](https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90)
