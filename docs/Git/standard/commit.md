@@ -214,7 +214,7 @@ npx husky-init && npm install
 
 - 这个命令会做 3 件事：
   - 1.安装 husky 相关的依赖：
-  - 2.在项目目录下创建 `.husky` 文件夹(其中创建一个 pre-commit hook 示例。默认，当你 commiit 会执行 npm test，可以进行修改)：
+  - 2.在项目目录下创建 `.husky` 文件夹(其中创建一个 pre-commit hook 示例。默认，当你 commiit 会执行 npm test，可以进行修改)。同时还将 git 所在项目本地环境的 core.hookspath 设置为.husky。所以，这个.husky 目录就是我们放 git hook 脚本的地方：
   - 3.在 package.json 中添加一个脚本：
 
 ```js
