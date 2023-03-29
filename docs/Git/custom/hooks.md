@@ -6,6 +6,8 @@ date: 2023-03-27
 
 ## 认识 [git hooks](https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90)
 
+[掘金文档]https://juejin.cn/post/7025880096791592968
+
 - 作用:
   - git hook 让我们可以在 git 执行一些行为的前后时机，执行一些自定义脚本。<br>
 - 安装钩子:

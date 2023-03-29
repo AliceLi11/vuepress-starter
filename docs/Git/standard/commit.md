@@ -203,7 +203,27 @@ npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
 - 钩子种类(我们这里主要看两个提交相关的钩子):
   - `pre-commit`钩子: 在键入提交信息前运行。它用于检查即将提交的快照。例如，检查是否有所遗漏，确保测试运行，以及核查代码。 如果该钩子以非零值退出，Git 将放弃此次提交，不过你可以用 `git commit --no-verify` 来绕过这个环节。 你可以利用该钩子，来检查代码风格是否一致（运行类似 lint 的程序）、尾随空白字符是否存在（自带的钩子就是这么做的），或新方法的文档是否适当。
   - `commit-msg`: 钩子接收一个参数，存有当前提交信息的临时文件的路径。 如果该钩子脚本以非零值退出，Git 将放弃提交，因此，可以用来在提交通过前验证项目状态或提交信息。
-- .git/hooks
+- 为什么需要借助 husky[参考文档](https://juejin.cn/post/7025880096791592968)
+  - 虽然这样对我们本地来讲是可行的，但要注意，.git 文件夹的改动无法同步到远端仓库。 所以我们期望将 git-hook 的执行权移交到外面来。怎么做呢？
+    - 1.回到项目根目录下，新建一个文件夹。暂时命名.mygithooks。然后在此文件夹下，新增一个 git-hook 文件，命名为 pre-commit，并写入以下内容
+    ```bash
+    echo pre-commit执行啦
+    ```
+    - 2.好了，我们新建了自己的 git-hook，但此时 git 并不能识别。下面我们执行这行命令。它给我们自己的文件，配置了 git-hook 的执行权限：
+    ```bash
+    # 项目根目录下
+    git config core.hooksPath .mygithooks/pre-commit
+    ```
+    - 3.但这个时候我们 git commit 的话，可能会报这样的 waring，并且没有执行我们的 shell：
+    ```bash
+    hint: The 'pre-commit' hook was ignored because it's not set as executable.
+    hint: You can disable this warning with `git config advice.ignoredHook false`
+    ```
+    这是因为我们的操作系统没有给出这个文件的可执行权限。 因此我们得再执行这样一句命令：
+    ```bash
+    chmod +x .mygithooks/pre-commit
+    ```
+    ok！现在我们尝试执行 git add . && git commit -m "any meesage" 我们发现控制台日志会先打印 “pre-commit 执行啦” 这意味着成功啦！
 
 #### 使用
 
