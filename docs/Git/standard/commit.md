@@ -225,19 +225,15 @@ module.exports = {
 
 3.使用 husky 生成 commit-msg 文件，验证提交信息：（输入命令前，请先阅读下面的 husky 工具了解）
 
+- `npx --no-install` 表示只使用本地依赖，不允许找不到的时候尝试去下载，如果本地没有依赖包的话，就会报错。
+- `commitlint --edit <文件名>`：执行 commitlint 命令行工具，并使用 --edit 选项。表示从一个文件里提取 commit 内容来进行校验，校验规则由前面说的 commitlint.config.js 配置文件来指定。这里的`$1` 指向的是 `.git/COMMIT_EDITMSG` 文件，该文件保存着最后一次提交的 commit 信息。
+
 ```bash
-
-# 在 commit-msg 脚本中，我们可以通过 $1 拿到提交信息。$1 指向的是 .git/COMMIT_EDITMSG 文件，该文件保存着最后一次提交的 commit 信息。
-
-# npx --no-install 表示只使用本地依赖，不允许找不到的时候尝试去下载，如果本地没有依赖包的话，就会报错。
-
-# commit-msg钩子接收一个参数，存有当前提交信息的临时文件的路径。在 commit-msg 脚本中，我们可以通过 $1 拿到提交信息。$1 指向的是 .git/COMMIT_EDITMSG 文件，该文件保存着最后一次提交的 commit 信息。
-# commitlint --edit <文件名>：执行 commitlint 命令行工具，并使用 --edit 选项，从一个文件里提取 commit 内容来进行校验。校验规则由前面说的 commitlint.config.js 配置文件来指定。
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 ```
 
 - 补充：--edit 是 commitlint 的命令，可以在控制台输入`npx commitlint -h`查看 commitlint CLI 的具体用法。
-  - 可以方便查询到：--edit 是 read last commit message from the specified file or fallbacks to ./.git/COMMIT_EDITMSG
+  - 可以方便查询到：--edit 是 从定义的文件名或者从'./.git/COMMIT_EDITMSG'中读取最近一次的提交信息。即`--edit abc`就会从`当前项目根目录/abc`中去读取，如果这个文件不存在，就会报错。
 
 ```bash
 dameizi@dameizideMacBook-Pro vuepress-starter % npx commitlint -h
