@@ -355,7 +355,11 @@ git commit -m "Keep calm and commit"
 - 注意：使用命令创建，这个脚本会自动设置为可执行。但如果你是手动创建的，你需要手动使用 `chmod u+x pre-commit` 命令将该文件设置为可执行文件，否则钩子脚本是不会执行的。
 
 ```bash
-# 手动创建钩子文件的情况下，需要执行这个命令
+#手动创建的时候，commit前会出现如下警告
+hint: The '.husky/commit-msg' hook was ignored because it's not set as executable.
+hint: You can disable this warning with `git config advice.ignoredHook false`.
+
+# 所以你需要进入.husky目录，然后使用以下命令，将脚本设置为可执行
 chmod u+x pre-commit
 ```
 
