@@ -223,16 +223,21 @@ module.exports = {
 }
 ```
 
-3.使用 husky 生成 commit-msg 文件，验证提交信息：（输入命令前，先浏览下面的 husky 工具了解，按步骤配置完再回到这一步）
+3.使用 husky 生成 commit-msg 文件，验证提交信息：（输入命令前，请先阅读下面的 husky 工具了解）
 
 ```bash
 # npx --no-install 表示只使用本地项目 node_modules 下的脚本，不允许找不到的时候尝试去下载。下载耗费时间，所以要取消，你要确保已经把命令行工具下载好
+# 执行 commitment 命令行工具，并使用 --edit 选项，从一个文件里提取 commit 内容来进行校验。校验规则由前面说的 commitlint.config.js 配置文件来指定。
+# 在 commit-msg 脚本中，我们可以通过 $1 拿到提交信息。$1 指向的是 .git/COMMIT_EDITMSG 文件，该文件保存着最后一次提交的 commit 信息。
+# 可以拿到 commit 信息，那我们就可以在上面做一些校验工作，比如看是否符合 feat: xxx 的格式。这里有个问题，就是我们需要自己去声明一些规范，并且要自己去实现代码。
+
+# commit-msg钩子接收一个参数，存有当前提交信息的临时文件的路径。在 commit-msg 脚本中，我们可以通过 $1 拿到提交信息。$1 指向的是 .git/COMMIT_EDITMSG 文件，该文件保存着最后一次提交的 commit 信息。
 npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
 ```
 
 ### husky 工具了解
 
-> [husky](https://typicode.github.io/husky/#/?id=articles) 是一个 [git hook](https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90) 工具，可以帮助我们触发 git 提交的各个阶段：pre-commit、commit-msg、pre-push
+> [husky](https://typicode.github.io/husky/#/?id=articles) 是一个 [git hook](https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90) 工具，可以帮助我们触发 git 提交的各个阶段如：pre-commit、commit-msg、pre-push
 
 #### 使用
 
@@ -241,12 +246,6 @@ npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
 使用自动配置命令(推荐)
 
 ```bash
-# 这个命令会做3件事:
-# 1.安装 husky 相关的依赖。
-# 2.在项目根目录下创建 `.husky` 文件夹（其中创建了一个可以修改的 pre-commit hook 示例。默认，当 commit 时会先执行 npm test）。
-#   同时还将 git 所在项目本地环境的 core.hookspath 设置为.husky。所以，这个.husky 目录就是我们放 git hook 脚本的地方。
-# 3.在 package.json 中添加一个脚本："script":{" "prepare": "husky install"}
-
 npx husky-init && npm install       # npm
 npx husky-init && yarn              # Yarn 1
 yarn dlx husky-init --yarn2 && yarn # Yarn 2+
@@ -256,9 +255,9 @@ pnpm dlx husky-init && pnpm install # pnpm
 - 这个命令会做 3 件事:
 
   - 1.安装 husky 相关的依赖。
-  - 2.启用 git hook。
+  - 2.启用 git hook 以及 创建了一个 pre-commit hook 示例。
 
-    - 在项目根目录下创建 `.husky` 文件夹（其中创建了一个可以修改的 pre-commit hook 示例。默认，当 commit 时会先执行 npm test）。
+    - 在项目根目录下创建 `.husky` 文件夹（其中创建了一个可以修改的 pre-commit hook 示例。默认，当 commit 时会先执行 npm test，即在 commit 前先过一过测试用例）。
 
     ```bash
     # 生成的.husky文件夹
@@ -281,14 +280,15 @@ pnpm dlx husky-init && pnpm install # pnpm
 
   - 3.在 package.json 中添加一个脚本
 
-  ```js
-  /**prepare 是一个 npm 钩子，意思是安装依赖的时候，会先执行 husky install 命令。 */
-  {
-    "scripts": {
-      "prepare": "husky install"
+    - prepare 是一个 npm 钩子，执行时机是 npm install 之后，npm publish 之前。这里保证其他同事拉项目并安装依赖后，会执行 husky install 命令，即 启用 git hook。
+
+    ```js
+    {
+      "scripts": {
+        "prepare": "husky install"
+      }
     }
-  }
-  ```
+    ```
 
 也可以使用手动配置完成自动配置中的操作
 
@@ -301,7 +301,6 @@ npm install husky --save-dev
 - 2.启用 Git hooks
 
 ```bash
-# 注意，此操作不会生成git hook示例
 npx husky install
 
 # 生成的根目录下的.husky文件夹
@@ -315,10 +314,10 @@ npx husky install
 - 3.在 package.json 中添加一个脚本：
 
 ```bash
-# 注意,[npm pkg](https://docs.npmjs.com/cli/v7/commands?v=true) 命令在 npm Version 7.24.2 及以上才有
+# 可以使用命令添加。注意[npm pkg](https://docs.npmjs.com/cli/v7/commands?v=true) 命令在 npm Version 7.24.2 及以上才有
 npm pkg set scripts.prepare="husky install"
 
-# package.json会自动生成以下效果
+# 添加的脚本
 {
   "scripts": {
     "prepare": "husky install"
@@ -326,28 +325,43 @@ npm pkg set scripts.prepare="husky install"
 }
 ```
 
-- 4.创建一个 git hook
-
-```bash
-npx husky add .husky/pre-commit "npm test"
-git add .husky/pre-commit
-```
-
-- 注意: 这里我们只限制 git commit 规范。所以会把 pre-commit 文件删除。
-
-二. Add hook：使用 husky add .增加另一个钩子（`husky add <file> [cmd]`）
+二. Add hook：使用 husky add .增加一个钩子（`husky add <file> [cmd]`）
 
 - 这个命令会做 2 件事：
-  - 1.在 husky 增加 commit-msg 文件。
-  - 2.注入命令
+  - 1.在 .husky 目录 增加 `<file>` 文件。
+  - 2.注入`cmd`命令
 
-```ssh
-npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
+```bash
+# 如：执行这行命令后会在.husky目录增加pre-commit文件，创建的脚本内容如下:
+npx husky add .husky/pre-commit "npm test"
+```
+
+```bash
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm test
+```
+
+- 测试 git commit
+
+```bash
+# 如果 npm test命令失败，你的commit将会被自动终止。
+git add .husky/pre-commit
+git commit -m "Keep calm and commit"
+```
+
+- 注意：使用命令创建，这个脚本会自动设置为可执行。但如果你是手动创建的，你需要手动使用 `chmod u+x pre-commit` 命令将该文件设置为可执行文件，否则钩子脚本是不会执行的。
+
+```bash
+# 手动创建钩子文件的情况下，需要执行这个命令
+chmod u+x pre-commit
 ```
 
 三.卸载 husky
 
 ```bash
+# --unset 移除键值对，只有键时，将会删除该键值对，键后跟值时，代表仅删除改值。即移除了husky的git-hook 的配置权限。
 npm uninstall husky && git config --unset core.hooksPath
 ```
 
@@ -393,6 +407,9 @@ git commit -m "chore: lint on commitmsg"
 - 7.lint+pre-commit
 - 8.commitizen 配置 path 后理解(https://github.com/commitizen/cz-cli)
 - 9.npm 升级最好是升级 node,从而带动捆绑的 npm 吗
+- 10.husky 的 husky.sh 中的脚本意思
+- （已写）11.手写命令，不会生效，需要执行权。
+- 12.npm run 和 npx 的区别以及 npm run 背后机制（阮一峰，npm scripts）
 
 #### 认识 git hook
 

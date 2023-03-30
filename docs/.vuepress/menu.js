@@ -78,13 +78,14 @@ const sidebarList = {
     ],
     '/Node':[
         {
-            title: "npm CLI Commands",
+            title: "npm CLI",
             collapsable:false,// 不折叠
             children:[
                 { title: "npm 常用指令", path: "/Node/npm/command" },
                 { title: "npx 的使用", path: "/Node/npm/npx" },
+                { title: "npm scripts的使用", path: "/Node/npm/scripts" },
             ]
-        }
+        },
     ]
 }
 
