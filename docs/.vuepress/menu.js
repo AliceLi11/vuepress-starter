@@ -7,7 +7,8 @@ const navList =[
             {text:'Typescript',link:'/TypeScript/ConditionalTypes' },
             {text:'Css',link:'/Css/base'},
             {text:'Git',link:'/Git/standard/commit'},
-            {text:'UnitTest',link:'/UnitTest/standard/commit'}
+            {text:'UnitTest',link:'/UnitTest/standard/commit'},
+            {text:'Node',link:'/Node/npm/command'}
         ]
     },
     { 
@@ -73,6 +74,16 @@ const sidebarList = {
             // children:[
             //     { title: "git commit规范", path: "/Git/standard/commit" },
             // ]
+        }
+    ],
+    '/Node':[
+        {
+            title: "npm CLI Commands",
+            collapsable:false,// 不折叠
+            children:[
+                { title: "npm 常用指令", path: "/Node/npm/command" },
+                { title: "npx 的使用", path: "/Node/npm/npx" },
+            ]
         }
     ]
 }
