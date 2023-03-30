@@ -220,7 +220,7 @@ echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > comm
 #或者 手动定义一个文件配置并注入如下代码，文件名可取 commitlint.config.js, .commitlintrc.js, .commitlintrc, .commitlintrc.json, .commitlintrc.yml ，也可以在package.json中使用 commitlint字段配置。
 module.exports = {
   extends: ['@commitlint/config-conventional']
-}1
+}
 ```
 
 3.使用 husky 生成 commit-msg 文件，验证提交信息：（输入命令前，请先阅读下面的 husky 工具了解）
