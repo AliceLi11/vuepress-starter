@@ -229,12 +229,49 @@ module.exports = {
 
 # 在 commit-msg 脚本中，我们可以通过 $1 拿到提交信息。$1 指向的是 .git/COMMIT_EDITMSG 文件，该文件保存着最后一次提交的 commit 信息。
 
-# npx --no-install 表示只使用本地依赖，不允许找不到的时候尝试去下载。
+# npx --no-install 表示只使用本地依赖，不允许找不到的时候尝试去下载，如果本地没有依赖包的话，就会报错。
 
 # commit-msg钩子接收一个参数，存有当前提交信息的临时文件的路径。在 commit-msg 脚本中，我们可以通过 $1 拿到提交信息。$1 指向的是 .git/COMMIT_EDITMSG 文件，该文件保存着最后一次提交的 commit 信息。
 # commitlint --edit <文件名>：执行 commitlint 命令行工具，并使用 --edit 选项，从一个文件里提取 commit 内容来进行校验。校验规则由前面说的 commitlint.config.js 配置文件来指定。
-npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+```
+
+- 补充：--edit 是 commitlint 的命令，可以在控制台输入`npx commitlint -h`查看 commitlint CLI 的具体用法。
+  - 可以方便查询到：--edit 是 read last commit message from the specified file or fallbacks to ./.git/COMMIT_EDITMSG
+
+```bash
+dameizi@dameizideMacBook-Pro vuepress-starter % npx commitlint -h
+@commitlint/cli@17.5.0 - Lint your commit messages
+
+[input] reads from stdin if --edit, --env, --from and --to are omitted
+
+选项：
+  -c, --color          toggle colored output               [布尔] [默认值: true]
+  -g, --config         path to the config file                          [字符串]
+      --print-config   print resolved config              [布尔] [默认值: false]
+  -d, --cwd            directory to execute in
+                                          [字符串] [默认值: (Working Directory)]
+  -e, --edit           read last commit message from the specified file or
+                       fallbacks to ./.git/COMMIT_EDITMSG               [字符串]
+  -E, --env            check message in the file at path given by environment
+                       variable value                                   [字符串]
+  -x, --extends        array of shareable configurations to extend        [数组]
+  -H, --help-url       help url in error message                        [字符串]
+  -f, --from           lower end of the commit range to lint; applies if
+                       edit=false                                       [字符串]
+      --git-log-args   addditional git log arguments as space separated string,
+                       example '--first-parent --cherry-pick'           [字符串]
+  -o, --format         output format of the results                     [字符串]
+  -p, --parser-preset  configuration preset to use for
+                       conventional-commits-parser                      [字符串]
+  -q, --quiet          toggle console output              [布尔] [默认值: false]
+  -t, --to             upper end of the commit range to lint; applies if
+                       edit=false                                       [字符串]
+  -V, --verbose        enable verbose output for reports without problems [布尔]
+  -s, --strict         enable strict mode; result code 2 for warnings, 3 for
+                       errors                                             [布尔]
+  -v, --version        display version information                        [布尔]
+  -h, --help           显示帮助信息
 ```
 
 ### husky 工具了解
