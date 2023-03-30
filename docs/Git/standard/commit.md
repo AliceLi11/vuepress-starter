@@ -234,6 +234,7 @@ module.exports = {
 # commit-msg钩子接收一个参数，存有当前提交信息的临时文件的路径。在 commit-msg 脚本中，我们可以通过 $1 拿到提交信息。$1 指向的是 .git/COMMIT_EDITMSG 文件，该文件保存着最后一次提交的 commit 信息。
 # commitlint --edit <文件名>：执行 commitlint 命令行工具，并使用 --edit 选项，从一个文件里提取 commit 内容来进行校验。校验规则由前面说的 commitlint.config.js 配置文件来指定。
 npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
+npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 ```
 
 ### husky 工具了解
