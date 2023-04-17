@@ -1,4 +1,11 @@
+###
+ # @Descripttion: 
+ # @Author: suanmei
+ # @Date: 2023-03-30 15:37:07
+ # @LastEditors: suanmei
+ # @LastEditTime: 2023-04-17 15:06:00
+### 
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx --no-install commitlint --edit "abc"
+npx --no-install commitlint --edit "$1"

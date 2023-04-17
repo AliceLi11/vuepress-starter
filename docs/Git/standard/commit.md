@@ -10,7 +10,7 @@ date: 2023-03-27
 
 当前环境
 
-> Node 版本: v14.18.2；npm 版本: 6.14.15
+> 操作系统: macOS；Node 版本: v14.18.2；npm 版本: 6.14.15；npx 版本: 6.14.15；git 版本: 2.37.0
 
 什么是 Commit message
 
@@ -22,7 +22,7 @@ git commit -m "hello world"
 为什么要有 Commit message 规范，以及怎么去做好规范
 
 > 通常我们的 git commit 会按照统一的风格来提交，这样可以快速定位每次提交的内容，方便之后对版本进行控制。如果每次手动来编写这些是比较麻烦的事情，我们可以使用工具。<br>
-> 目前，社区有多种 Commit message 的写法规范。本文介绍 Angular 规范，这是目前使用最广的写法，比较合理和系统化，并且有配套的工具。
+> 目前，社区有多种 Commit message 的写法规范。本文介绍 [Angular 规范](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines)，这是目前使用最广的写法，比较合理和系统化，并且有配套的工具。
 
 工具推荐:
 
@@ -31,7 +31,7 @@ git commit -m "hello world"
 - [standard-version](https://github.com/conventional-changelog/standard-version)：根据符合规范的 commit 记录自动生成更改日志文件。
 - [commitlint](https://github.com/conventional-changelog/commitlint)：检查 commit 信息是否符合规范。
 
-### commit 格式规范:
+### commit 格式规范(先了解留个印象):
 
 - 每条 commit 记录都由 `header`、`body`、`footer` 组成。其中，Header 是必需的，Body 和 Footer 可以省略。
   - Header: 由 type(类型(必需))、scope(修改范围(可选))、subject(简短描述(必需))组成。
@@ -63,7 +63,7 @@ git commit -m "hello world"
   | chore | 不涉及 src 或测试文件的代码变更(Other changes that don't modify src or test files) |
   | revert | 代码回退(Reverts a previous commit) |
 
-### Commitizen 工具的使用
+### Commitizen 工具的使用（撰写合格 Commit message 的工具）
 
 #### 安装
 
@@ -74,13 +74,13 @@ git commit -m "hello world"
 npm install commitizen -D
 
 #如果安装在全局，可以用git cz 代替git commit
-npm install commitize -g
+npm install commitizen -g
 ```
 
 - 执行一下命令，可以发现执行效果和 `git commit`一致。其实 `commitizen` 一般使用需要配合对应的规则模块，通过规则模块规则化 commit 信息。官方和社区提供了预设的规则包:`cz-conventional-changelog`
 
 ```bash
-dameizi@dameizideMacBook-Pro testcommit % git commitnpx cz
+dameizi@dameizideMacBook-Pro testcommit % npx cz
 # Please enter the commit message for your changes. Lines starting
 # with '#' will be ignored, and an empty message aborts the commit.
 #
@@ -100,14 +100,50 @@ npx commitizen init cz-conventional-changelog --save-dev --save-exact
 ```
 
 - 这个命令除了会帮助我们安装 cz-conventional-changelog，还会在 package.json 中进行如下配置：
+  - 这只是告诉 Commitizen，当尝试提交时，我们实际上希望他们使用哪个适配器(规则包)
 
 ```js
-/*这只是告诉Commitizen，当尝试提交时，我们实际上希望他们使用哪个适配器。*/
+/**
+ * commitizen.path 通过require.resolve解析路径，它支持以下几种写法:
+   1.npm模块包
+   2.包含index.js文件的文件夹，文件夹路径相对于执行命令时的目录(即相对于process.cwd())
+   3.js文件，文件路径相对于执行命令时的目录(即相对于process.cwd())
+   4.完全相对路径
+   5.绝对路径
+ */
 "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
 }
+```
+
+```js
+// ./node_modules/cz-conventional-changelog/index.js中的代码片段
+...
+var options = {
+  types: config.types || conventionalCommitTypes.types,
+  defaultType: process.env.CZ_TYPE || config.defaultType,
+  defaultScope: process.env.CZ_SCOPE || config.defaultScope,
+  defaultSubject: process.env.CZ_SUBJECT || config.defaultSubject,
+  defaultBody: process.env.CZ_BODY || config.defaultBody,
+  defaultIssues: process.env.CZ_ISSUES || config.defaultIssues,
+  disableScopeLowerCase:
+    process.env.DISABLE_SCOPE_LOWERCASE || config.disableScopeLowerCase,
+  disableSubjectLowerCase:
+    process.env.DISABLE_SUBJECT_LOWERCASE || config.disableSubjectLowerCase,
+  maxHeaderWidth:
+    (process.env.CZ_MAX_HEADER_WIDTH &&
+      parseInt(process.env.CZ_MAX_HEADER_WIDTH)) ||
+    config.maxHeaderWidth ||
+    100,
+  maxLineWidth:
+    (process.env.CZ_MAX_LINE_WIDTH &&
+      parseInt(process.env.CZ_MAX_LINE_WIDTH)) ||
+    config.maxLineWidth ||
+    100,
+};
+...
 ```
 
 - 补充: 如果想要固定这个依赖包版本，还是老老实实分两步执行:
@@ -213,6 +249,8 @@ npm install --save-dev @commitlint/config-conventional @commitlint/cli
 
 2.配置 commitlint
 
+- extends 字段是 commitlint CLI 中的一个配置扩展命令，可以继承其他人的配置（使用说明:array of shareable configurations to extend）。这里表示扩展子@commitlint/config-conventional 的配置，一般扩展这个就足够了。
+
 ```bash
 # Configure commitlint to use conventional config（自动）
 echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
@@ -232,8 +270,9 @@ module.exports = {
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 ```
 
-- 补充：--edit 是 commitlint 的命令，可以在控制台输入`npx commitlint -h`查看 commitlint CLI 的具体用法。
-  - 可以方便查询到：--edit 是 从定义的文件名或者从'./.git/COMMIT_EDITMSG'中读取最近一次的提交信息。即`--edit abc`就会从`当前项目根目录/abc`中去读取，如果这个文件不存在，就会报错。
+- 补充：可以在控制台输入`npx commitlint -h`查看 commitlint CLI 的具体用法。如:
+  - `--edit` 的用法：是 从定义的文件名或者从 `./.git/COMMIT_EDITMSG` 中读取最近一次的提交信息。即`--edit abc`就会从`当前项目根目录/abc`中去读取信息，如果这个文件不存在，就会报错`[Error: ENOENT: no such file or directory, open '/Users/dameizi/own/vuepress-starter/abc']`。注意这个选项只是从特定文件读取 commit 内容，不会修改 commit 内容存放的位置。
+  - `--extends` 的用法：继承其他可以共享的配置，这些配置放在数组里。
 
 ```bash
 dameizi@dameizideMacBook-Pro vuepress-starter % npx commitlint -h
@@ -393,8 +432,8 @@ git commit -m "Keep calm and commit"
 hint: The '.husky/commit-msg' hook was ignored because it's not set as executable.
 hint: You can disable this warning with `git config advice.ignoredHook false`.
 
-# 所以你需要进入.husky目录，然后使用以下命令，将脚本设置为可执行
-chmod u+x pre-commit
+# 所以你需要使用以下命令，将脚本设置为可执行
+当前项目根目录> chmod u+x .husky/pre-commit
 ```
 
 三.卸载 husky
@@ -429,54 +468,22 @@ git commit -m "chore: lint on commitmsg"
  ...
 ```
 
+- 但如果某个时刻，你就想跳过 pre-commit 和 commit-msg 钩子的验证，可以使用 Git `-n/--no-verify`选项
+
+```bash
+# 如:
+git commit -m "yolo!" --no-verify
+```
+
+### 篇外
+
+- 如果想更深入了解 husky 和 git hook 的关系，请移向[husky 和 git hook 的关系篇](http://localhost:8080/frontend/Git/standard/huskyAndHooks.html)
+
 ### 友情链接
 
 [阮一峰:Commit message 和 Change log 编写指南](https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)<br>
-[Git 官方文档](https://git-scm.com/book/zh/v2)<br>
-[Git hook](https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90)
-
-### TODO
-
-- 1.git hooks
-- 2.shengbang 命令
-- 3.为什么可以执行 npx cz
-- 4.element-ui 中 body 怎么描述的
-- 5.为什么别人 commit 提交后控制台会有显示信息，是不是用了钩子
-- 6.日志是不是有 npm 包可以自动生成
-- 7.lint+pre-commit
-- 8.commitizen 配置 path 后理解(https://github.com/commitizen/cz-cli)
-- 9.npm 升级最好是升级 node,从而带动捆绑的 npm 吗
-- 10.husky 的 husky.sh 中的脚本意思
-- （已写）11.手写命令，不会生效，需要执行权。
-- 12.npm run 和 npx 的区别以及 npm run 背后机制（阮一峰，npm scripts）
-
-#### 认识 git hook
-
-- 作用:
-  - git hook 让我们可以在 git 执行一些行为的前后时机，执行一些自定义脚本。<br>
-- 安装钩子:
-  - 钩子都被存储在 Git 目录下的 `hooks` 子目录中。当你用 `git init`初始化一个新版本库时，Git 默认会在 `.git/hooks` 中放置一些示例脚本，这些示例的名称都是以`.sample`结尾。这些脚本除了本身可以被调用外，它们还透露了被触发时所传入的参数。 所有的示例都是 shell 脚本。如果你想启用它们，得先移除这个后缀，这样一来，它就能被 Git 调用。
-- 钩子种类(我们这里主要看两个提交相关的钩子):
-  - `pre-commit`钩子: 在键入提交信息前运行。它用于检查即将提交的快照。例如，检查是否有所遗漏，确保测试运行，以及核查代码。 如果该钩子以非零值退出，Git 将放弃此次提交，不过你可以用 `git commit --no-verify` 来绕过这个环节。 你可以利用该钩子，来检查代码风格是否一致（运行类似 lint 的程序）、尾随空白字符是否存在（自带的钩子就是这么做的），或新方法的文档是否适当。
-  - `commit-msg`: 钩子接收一个参数，存有当前提交信息的临时文件的路径。 如果该钩子脚本以非零值退出，Git 将放弃提交，因此，可以用来在提交通过前验证项目状态或提交信息。
-- 为什么需要借助 husky[参考文档](https://juejin.cn/post/7025880096791592968)
-  - 虽然这样对我们本地来讲是可行的，但要注意，.git 文件夹的改动无法同步到远端仓库。 所以我们期望将 git-hook 的执行权移交到外面来。怎么做呢？
-    - 1.回到项目根目录下，新建一个文件夹。暂时命名.mygithooks。然后在此文件夹下，新增一个 git-hook 文件，命名为 pre-commit，并写入以下内容
-    ```bash
-    echo pre-commit执行啦
-    ```
-    - 2.好了，我们新建了自己的 git-hook，但此时 git 并不能识别。下面我们执行这行命令。它给我们自己的文件，配置了 git-hook 的执行权限：
-    ```bash
-    # 项目根目录下
-    git config core.hooksPath .mygithooks/pre-commit
-    ```
-    - 3.但这个时候我们 git commit 的话，可能会报这样的 waring，并且没有执行我们的 shell：
-    ```bash
-    hint: The 'pre-commit' hook was ignored because it's not set as executable.
-    hint: You can disable this warning with `git config advice.ignoredHook false`
-    ```
-    这是因为我们的操作系统没有给出这个文件的可执行权限。 因此我们得再执行这样一句命令：
-    ```bash
-    chmod +x .mygithooks/pre-commit
-    ```
-    ok！现在我们尝试执行 git add . && git commit -m "any meesage" 我们发现控制台日志会先打印 “pre-commit 执行啦” 这意味着成功啦！
+[Git 官方文档](https://git-scm.com/book/zh/v2)[Git hook 文档](https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90)<br>
+[Angular 规范之 git commit](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines)<br>
+[husky 官方文档](https://typicode.github.io/husky/#/?id=articles)[husky github 地址](https://github.com/typicode/husky)
+[npm 官方文档](https://docs.npmjs.com/cli/v7/configuring-npm/package-json)<br>
+[commitlint 官方链接](https://github.com/conventional-changelog/commitlint)[commitlint 文档链接](https://commitlint.js.org/#/guides-local-setup)

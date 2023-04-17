@@ -1,7 +1,17 @@
+<!--
+ * @Descripttion:
+ * @Author: suanmei
+ * @Date: 2023-03-30 09:25:28
+ * @LastEditors: suanmei
+ * @LastEditTime: 2023-04-01 14:34:46
+-->
+
 ---
+
 title: npx use
 author: 向阳
 date: 2023-03-30
+
 ---
 
 [借鉴](https://www.cnblogs.com/hongzhiguo/p/14592093.html)
@@ -15,6 +25,8 @@ date: 2023-03-30
 1. 去 node_modules/.bin 目录查找命令是否存在。找到之后执行
 2. 如果在 bin 目录下找不到命令，那么就会去$path 里查找命令，找到后执行
 3. 如果都找不到，那么就会创建一个临时的文件下载所需要的的依赖包，使用完成后删除，不污染全局环境
+
+(vitest 官网介绍：npx 命令将从本地 node_modules/.bin 执行命令，安装命令运行所需的任何包。 默认情况下，npx 将检查命令是否存在于 $PATH 或本地项目二进制文件中，并执行它。 如果未找到命令，它将在执行之前安装。)
 
 ### 安装 npx
 

@@ -57,6 +57,7 @@ const sidebarList = {
             collapsable:false,// 不折叠
             children:[
                 { title: "git commit规范", path: "/Git/standard/commit" },
+                { title: "husky和git hooks的关系", path: "/Git/standard/huskyAndHooks" },
             ]
         },
         {
