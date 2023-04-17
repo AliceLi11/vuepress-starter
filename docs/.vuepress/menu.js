@@ -53,6 +53,17 @@ const sidebarList = {
     ],
     '/Git/':[
         {
+            title: "Git入门",
+            collapsable:false,// 不折叠
+            children:[
+                { title: "基本使用", path: "/Git/base/baseUse" },
+                { title: "全局配置", path: "/Git/base/globalConfig" },
+                { title: "分支操作", path: "/Git/base/branchOperate" },
+                { title: "基础操作", path: "/Git/base/baseOperate" },
+                { title: "远程操作", path: "/Git/base/remoteOperate" },
+            ]
+        },
+        {
             title: "git代码规范辅助工具",
             collapsable:false,// 不折叠
             children:[
