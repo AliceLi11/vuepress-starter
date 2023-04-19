@@ -8,7 +8,8 @@ const navList =[
             {text:'Css',link:'/Css/base'},
             {text:'Git',link:'/Git/standard/commit'},
             {text:'UnitTest',link:'/UnitTest/standard/commit'},
-            {text:'Node',link:'/Node/npm/command'}
+            {text:'Node',link:'/Node/npm/command'},
+            {text:'函数式编程',link:'/Function/juejin'}
         ]
     },
     { 
@@ -56,10 +57,10 @@ const sidebarList = {
             title: "Git入门",
             collapsable:false,// 不折叠
             children:[
-                { title: "基本使用", path: "/Git/base/baseUse" },
+                { title: "安装与配置", path: "/Git/base/baseUse" },
+                { title: "基础操作", path: "/Git/base/baseOperate" },
                 { title: "全局配置", path: "/Git/base/globalConfig" },
                 { title: "分支操作", path: "/Git/base/branchOperate" },
-                { title: "基础操作", path: "/Git/base/baseOperate" },
                 { title: "远程操作", path: "/Git/base/remoteOperate" },
             ]
         },
@@ -98,6 +99,16 @@ const sidebarList = {
                 { title: "npm scripts的使用", path: "/Node/npm/scripts" },
             ]
         },
+    ],
+    '/Function':[
+        {
+            title:"函数式编程-修言掘金小册",
+            collapsable:false,
+            children:[
+                {title:"理论",path:"/Function/theory"},
+                {title:"实践",path:"/Function/behavior"}
+            ]
+        }
     ]
 }
 
