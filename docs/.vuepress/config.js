@@ -3,7 +3,7 @@
  * @Author: suanmei
  * @Date: 2023-03-16 20:43:36
  * @LastEditors: suanmei
- * @LastEditTime: 2023-03-27 11:28:55
+ * @LastEditTime: 2023-04-27 11:31:02
  */
 const {navList,sidebarList} =require('./menu');
 module.exports = {
@@ -14,7 +14,8 @@ module.exports = {
     themeConfig:{
         nav:navList,
         sidebar:sidebarList,
-        sidebarDepth:2
+        sidebarDepth:2,
+        subSidebar:"auto"
     },
     locales:{
         '/':{

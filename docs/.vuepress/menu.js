@@ -9,7 +9,7 @@ const navList =[
             {text:'Git',link:'/Git/standard/commit'},
             {text:'UnitTest',link:'/UnitTest/standard/commit'},
             {text:'Node',link:'/Node/npm/command'},
-            {text:'函数式编程',link:'/Function/juejin'}
+            {text:'函数式编程',link:'/Function/theory'}
         ]
     },
     { 
@@ -78,6 +78,16 @@ const sidebarList = {
             children:[
                 { title: "git hooks", path: "/Git/custom/hooks" },
             ]
+        },
+        {
+            title:"git init生成的.git下的文件",
+            collapsable:false,// 不折叠
+            children:[
+                { title: "git底层命令", path: "/Git/gitInit/bottomCommand" },
+                { title: "SHA-1校验和计算", path: "/Git/gitInit/getSHA-1" },
+                { title: ".git目录下的文件", path: "/Git/gitInit/defaultFile" },
+                { title: "解析unix中inode块", path: "/Git/gitInit/unix_inodes" },
+            ]
         }
     ],
     '/UnitTest/':[
@@ -105,6 +115,10 @@ const sidebarList = {
             title:"函数式编程-修言掘金小册",
             collapsable:false,
             children:[
+                {title:"开篇导读",path:"/Function/start"},
+                {title:"纯函数与副作用",path:"/Function/effect"},
+                {title:"函数是一等公民",path:"/Function/firstLevel"},
+                {title:"函数纯度的安全帽:不可变数据",path:"/Function/notChangedData"},
                 {title:"理论",path:"/Function/theory"},
                 {title:"实践",path:"/Function/behavior"}
             ]
