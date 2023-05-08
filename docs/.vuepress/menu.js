@@ -9,7 +9,9 @@ const navList =[
             {text:'Git',link:'/Git/standard/commit'},
             {text:'UnitTest',link:'/UnitTest/standard/commit'},
             {text:'Node',link:'/Node/npm/command'},
-            {text:'函数式编程',link:'/Function/theory'}
+            {text:'函数式编程',link:'/Function/theory'},
+            {text:'日常开发问题记录',link:'/Problem/echarts'},
+            {text:'Uniapp',link:'/Uniapp/start'}
         ]
     },
     { 
@@ -62,6 +64,7 @@ const sidebarList = {
                 { title: "全局配置", path: "/Git/base/globalConfig" },
                 { title: "分支操作", path: "/Git/base/branchOperate" },
                 { title: "远程操作", path: "/Git/base/remoteOperate" },
+                { title: "标签操作", path: "/Git/base/tag" },
             ]
         },
         {
@@ -121,6 +124,25 @@ const sidebarList = {
                 {title:"函数纯度的安全帽:不可变数据",path:"/Function/notChangedData"},
                 {title:"理论",path:"/Function/theory"},
                 {title:"实践",path:"/Function/behavior"}
+            ]
+        }
+    ],
+    '/Uniapp':[
+        {
+            title:"Uniapp",
+            collapsable:false,
+            children:[
+                {title:"开篇导读",path:"/Uniapp/start"},
+            ]
+        }
+    ],
+    '/Problem':[
+        {
+            title:"日常开发问题记录",
+            collapsable:false,
+            children:[
+                {title:"Echarts图表",path:'/Problem/echarts'},
+                {title:"vue2js",path:'/Problem/vue2'}
             ]
         }
     ]

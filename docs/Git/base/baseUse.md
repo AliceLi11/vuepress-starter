@@ -135,6 +135,7 @@ $ git config --global alias.last 'log -1 HEAD'
 $ git log -1 HEAD
 $ git last
 
+# 如果想要执行外部命令，而不是一个 Git 子命令，可以在命令前面加入 ! 符号。 如果你自己要写一些与 Git 仓库协作的工具的话，那会很有用。 如将 git visual 定义为 gitk 的别名：
 $ git config --global alias.visual '!gitk'
 ```
 
