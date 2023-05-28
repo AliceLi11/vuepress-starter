@@ -1,17 +1,7 @@
-<!--
- * @Descripttion:
- * @Author: suanmei
- * @Date: 2023-03-30 09:25:28
- * @LastEditors: suanmei
- * @LastEditTime: 2023-04-01 14:34:46
--->
-
 ---
-
 title: npx use
 author: 向阳
 date: 2023-03-30
-
 ---
 
 [借鉴](https://www.cnblogs.com/hongzhiguo/p/14592093.html)

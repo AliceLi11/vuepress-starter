@@ -8,14 +8,14 @@ date: 2023-03-27
 
 版本库：又名仓库，可以简单理解成一个目录，这个目录里面的所有文件都可以被 Git 管理起来，每个文件的修改、删除，Git 都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。
 
-远程仓库：指托管在因特网或其他网络中的你的项目的版本库。
+远程仓库：指托管在因特网或其他网络中的你的项目的版本库(远程只是表示它在别处，也可以在你的本地主机上)。
 
 Tip：你可以有好几个远程仓库，通常有些仓库对你只读，有些则可以读写。 管理远程仓库包括了解如何添加远程仓库、移除无效的远程仓库、管理不同的远程分支并定义它们是否被跟踪等等。
 
 ### 1.查看远程仓库
 
 ```shell
-# 如果已经配置了远程仓库服务器，至少能看到origin，这是Git给的远程仓库服务器的默认名字
+# 如果已经克隆了自己的仓库，那么至少应该能看到 origin ——这是 Git 给你克隆的仓库服务器的默认名字
 $ git remote
 origin
 
@@ -25,12 +25,15 @@ origin  git@github.com:AliceLi11/vuepress-starter.git (fetch)
 origin  git@github.com:AliceLi11/vuepress-starter.git (push)
 
 
-# 如果有多个远程仓库，例如与几个协作者合作的，也能全部列出（TODO:还没见过多个远程仓库的）
+# 如果有多个远程仓库，例如与几个协作者合作的，也能全部列出。这表示我们能非常方便地拉取其它用户的贡献，还可以拥有向他们推送的权限（TODO:还没见过多个远程仓库的）
 $ git remote -v
+# 注意这些远程仓库使用了不同的协议
 bakkdoor  https://github.com/bakkdoor/grit (fetch)
 bakkdoor  https://github.com/bakkdoor/grit (push)
 koke      git://github.com/koke/grit.git (fetch)
 koke      git://github.com/koke/grit.git (push)
+origin    git@github.com:mojombo/grit.git (fetch)
+origin    git@github.com:mojombo/grit.git (push)
 ...
 
 ```

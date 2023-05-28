@@ -28,11 +28,15 @@ const sidebarList = {
     '/TypeScript/':[
         {
             title: "基础学习TS",
-            path: '/TypeScript/ConditionalTypes',
+            // path: '',
             collapsable: false, // 不折叠
             children: [
-                { title: "条件类型", path: "" },
-                { title: "泛型", path: "Generics" }
+                {title:"JS和TS相同的数据类型",path:"/TypeScript/NormalType"},
+                {title:"TS特有的数据类型",path:"/TypeScript/specialType"},
+                { title: "条件类型", path: "/TypeScript/ConditionalTypes" },
+                { title: "函数类型", path: "/TypeScript/FunsTypes" },
+                { title: "泛型", path: "/TypeScript/Generics" },
+                {title:"枚举类型",path:"/TypeScript/Enum"}
             ]
         }
     ],
@@ -133,6 +137,8 @@ const sidebarList = {
             collapsable:false,
             children:[
                 {title:"开篇导读",path:"/Uniapp/start"},
+                {title:"基础入门",path:"/Uniapp/baseEntry"},
+                {title:"ToolUN",path:"/Uniapp/program/ToolUN"},
             ]
         }
     ],

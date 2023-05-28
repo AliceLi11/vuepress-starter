@@ -1,7 +1,17 @@
+<!--
+ * @Descripttion:
+ * @Author: suanmei
+ * @Date: 2023-03-29 22:31:41
+ * @LastEditors: suanmei
+ * @LastEditTime: 2023-05-09 21:56:17
+-->
+
 ---
+
 title: npm command
 author: 向阳
 date: 2023-03-30
+
 ---
 
 - npm 查看已安装的包(全局、和本地)[借鉴文档](https://blog.csdn.net/qq_41664096/article/details/121797260)
@@ -23,4 +33,13 @@ $ npm ls --depth 0 --prod
 $ npm ls --depth 0 --dev
 
 
+```
+
+- 安装/卸载依赖
+
+```bash
+$ npm install express --save
+
+#这个命令会把它从node_modules/中删除，还会更新package.json文件
+$ npm rm express --save
 ```
