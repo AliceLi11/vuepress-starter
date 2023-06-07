@@ -108,6 +108,13 @@ const sidebarList = {
     ],
     '/Node':[
         {
+            title: "node.js",
+            collapsable:false,// 不折叠
+            children:[
+                { title: "nodejs初识", path: "/Node/nodejs/start" },
+            ]
+        },
+        {
             title: "npm CLI",
             collapsable:false,// 不折叠
             children:[
