@@ -1,12 +1,25 @@
+<!--
+ * @Descripttion:
+ * @Author: suanmei
+ * @Date: 2023-03-27 10:14:10
+ * @LastEditors: suanmei
+ * @LastEditTime: 2023-06-07 17:37:31
+-->
+
 ---
+
 title: 常用记录
 author: 向阳
 date: 2023-03-27
+
 ---
 
 ## flex:1 由哪几个属性组成
 
 [阮一峰文档](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+
+[阮一峰文档 2](https://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
+
 [外链](https://mp.weixin.qq.com/s?__biz=MjM5MDA2MTI1MA==&mid=2649125863&idx=2&sn=01073e195d282f5830c2ad41a428876f&chksm=be58544a892fdd5c54106e6516db839481a3a61e8810827f6e8f5d70d039252e474a588131e9&scene=27)、
 
 - 首先我们来看项目的几个属性：flex-grow、flex-shrink、flex-basis

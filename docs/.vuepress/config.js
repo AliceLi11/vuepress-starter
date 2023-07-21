@@ -3,7 +3,7 @@
  * @Author: suanmei
  * @Date: 2023-03-16 20:43:36
  * @LastEditors: suanmei
- * @LastEditTime: 2023-04-27 11:31:02
+ * @LastEditTime: 2023-06-30 14:52:41
  */
 const {navList,sidebarList} =require('./menu');
 module.exports = {
@@ -48,5 +48,8 @@ module.exports = {
             recoverTime: 2000,
         }],
         ['demo-container']//一个基于 Vuepress 的插件，它可以帮助你在编写文档的时候增加 Vue 示例，它的诞生初衷是为了降低编写组件文档时增加一些相关示例的难度
-    ]
+    ],
+    chainWebpack: (config) => {//解决core-js版本与引入ElementUI冲突问题
+        config.resolve.alias.set('core-js/library/fn', 'core-js/features')
+    },
 }

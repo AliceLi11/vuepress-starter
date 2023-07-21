@@ -20,15 +20,16 @@
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.0",
     "vuepress": "^1.9.9",
+    "vuepress-plugin-demo-container": "^0.2.0",
     "vuepress-plugin-dynamic-title": "^1.0.0",
     "vuepress-theme-reco": "^1.6.17"
-  },
-  "dependencies": {
-    "vuepress-plugin-demo-container": "^0.2.0"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "element-ui": "^2.15.13"
   }
 }

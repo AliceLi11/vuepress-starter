@@ -11,7 +11,8 @@ const navList =[
             {text:'Node',link:'/Node/npm/command'},
             {text:'函数式编程',link:'/Function/theory'},
             {text:'日常开发问题记录',link:'/Problem/echarts'},
-            {text:'Uniapp',link:'/Uniapp/start'}
+            {text:'Uniapp',link:'/Uniapp/start'},
+            {text:'浏览器工作原理与实践',link:'/Browser/pages/performance'}
         ]
     },
     { 
@@ -155,7 +156,22 @@ const sidebarList = {
             collapsable:false,
             children:[
                 {title:"Echarts图表",path:'/Problem/echarts'},
-                {title:"vue2js",path:'/Problem/vue2'}
+                {title:"vue2js",path:'/Problem/vue2'},
+                {title:"ElemenuUI",path:'/Problem/elemenetUi'},
+                {title:"Css",path:'/Problem/css'}
+            ]
+        }
+    ],
+    '/Browser':[
+        {
+            title:"浏览器工作原理与实践",
+            collapsable:false,
+            children:[
+                {title:"浏览器中的页面",children:[
+                    {title:"利用网络面板做性能分析",path:'/Browser/pages/performance'}
+                ]},
+                {title:"vue2js",path:'/Problem/vue2'},
+                {title:"Css",path:'/Problem/css'}
             ]
         }
     ]
