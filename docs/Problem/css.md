@@ -152,3 +152,117 @@ date: 2023-06-07
 ```
 
 :::
+
+### 2.纯 css 制作表格
+
+场景 1:想让 table 固定表格宽度，设置列宽，不换行，超出宽度显示...
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .fixed-table {
+        width: 300px;
+        table-layout: fixed;
+      }
+      .fixed-table th,
+      .fixed-table td {
+        width: 150px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        padding: 11px 10px;
+      }
+      th {
+        background: rgba(18, 66, 125, 0.8);
+      }
+      td {
+        background: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <table
+      class="fixed-table"
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="border-collapse: collapse"
+    >
+      <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+      </tr>
+      <tr>
+        <td>小王子小王子小王子小王子小王子小王子</td>
+        <td>12</td>
+      </tr>
+    </table>
+  </body>
+</html>
+```
+
+场景 2:想让 table 横向滚动条：table 外定个宽，table 内容超出就会出现滚动条，再设置滚动条样式，如下为 chrome 的滚动条样式修改
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .table-wrap {
+        width: 300px;
+        overflow-x: auto;
+      }
+      ::-webkit-scrollbar {
+        /** 滚动条宽 **/
+        width: 6px;
+        height: 13px;
+      }
+      ::-webkit-scrollbar-thumb {
+        /**滚动条 拖动条 **/
+        background-color: #1a68c2;
+        border-radius: 0;
+      }
+      ::-webkit-scrollbar-track {
+        /** 滚动条背景槽 **/
+        background-color: rgba(36, 61, 102, 1);
+        border-radius: 0;
+      }
+      th,
+      td {
+        white-space: nowrap;
+        padding: 11px 10px;
+      }
+      th {
+        background: rgba(18, 66, 125, 0.8);
+      }
+      td {
+        background: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="table-wrap">
+      <table cellspacing="0" border="0" cellpadding="0">
+        <tr>
+          <th>姓名</th>
+          <th>年龄</th>
+        </tr>
+        <tr>
+          <td>小王子小王子小王子小王子小王子小王子</td>
+          <td>12</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
+```

@@ -8,6 +8,119 @@ date: 2023-03-27
 
 场景：单选/多选、上传限制、立即上传/后期上传
 
+场景 1:限制上传一张，立即上传
+
+:::demo
+
+```vue
+<script>
+export default {
+  inheritAttrs: false,
+  name: "commonUploadFile",
+  components: {},
+  props: {
+    actionUrl: {
+      type: String,
+      default: "/data-archiver/historicalData-archiver/upload",
+    },
+    fileList: {
+      type: Array,
+      default: () => [],
+    },
+    downloadUrl: {
+      type: String,
+      default: "/data-archiver/historicalData-archiver/downloadExcelTemplate",
+    },
+    downloadType: {
+      type: String,
+      default: "xls",
+    },
+    downloadName: {
+      type: String,
+      default: "模板下载.xlsx",
+    },
+    downloadMethod: {
+      type: String,
+      default: "post",
+    },
+  },
+  data() {
+    return {};
+  },
+  computed: {},
+  watch: {},
+  mounted() {},
+  render() {
+    const proxy = {
+      props: this.$attrs,
+      on: this.$listeners,
+    };
+    return (
+      <div class="upload-download">
+        <el-upload
+          fileList={this.fileList}
+          action={`${this.actionUrl}`}
+          auto-upload={true}
+          ref="uploadRef"
+          limit={1}
+          {...proxy}
+          {...{
+            props: {
+              "before-upload": this.handleBeforeUpload,
+              "on-change": this.handleFileChange,
+              "on-remove": this.handleFileRemove,
+              "on-success": this.handleFileSuccess,
+              "on-exceed": this.handleFileExceed,
+            },
+          }}
+        >
+          <el-button icon="iconfont icon-shangchuan" type="primary">
+            上传
+          </el-button>
+        </el-upload>
+      </div>
+    );
+  },
+  methods: {
+    /**==========================文件相关============================ */
+    handleBeforeUpload(file) {
+      const isLimit2M = file.size / 1024 / 1024 < 2;
+      if (!isLimit2M) {
+        this.$message.error("上传文件大小不能超过2MB!");
+      }
+      return isLimit2M;
+    },
+    handleFileExceed(file, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，请先删除之前上传的文件！`);
+    },
+    handleFileChange(file, fileList) {},
+    handleFileRemove(file, fileList) {
+      let fileTemp = [];
+      this.$emit("changeFile", fileTemp);
+    },
+    handleFileSuccess(response, file, fileList) {
+      if (response.code != 200) {
+        //后端处理失败
+        this.$message.error("上传失败");
+        let fileTemp = [];
+        this.$emit("changeFile", fileTemp);
+      } else {
+        //后端处理成功
+        if (fileList.length > 0) {
+          let fileTemp = [fileList[fileList.length - 1]];
+          this.$emit("changeFile", fileTemp);
+        }
+        let fileListInfo = response.data;
+        this.$emit("fileUploadSuccess", fileListInfo);
+      }
+    },
+  },
+};
+</script>
+```
+
+:::
+
 ### 2.DatePicker 日期选择器设置禁用日期
 
 场景 1：如动态禁用日期为后端返回的 2023-06-25 作为最大选择期限
@@ -402,6 +515,155 @@ export default {
             });
           }
         });
+      }
+    },
+  },
+};
+</script>
+```
+
+:::
+
+### 6.el-select
+
+场景：多选下拉框实现全选功能
+
+方法 1:加一个全选下拉框
+:::demo
+
+```vue
+<template>
+  <el-select
+    multiple
+    collapse-tags
+    v-model="selectedArray"
+    @change="changeSelect"
+    @remove-tag="removeTag"
+  >
+    <el-option label="全选" value="全选" @click.native="selectAll"></el-option>
+    <el-option
+      v-for="(item, index) in options"
+      :key="index"
+      :label="item.name"
+      :value="item.value"
+    ></el-option>
+  </el-select>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      selectedArray: [],
+      options: [
+        { name: "一一", value: "one" },
+        { name: "二二", value: "tow" },
+        { name: "三三", value: "three" },
+        { name: "四四", value: "four" },
+        { name: "五五", value: "five" },
+      ],
+    };
+  },
+  methods: {
+    //情况一：全选元素未勾选，点击全选元素，所有勾选
+    //情况二：全选元素已勾选，点击全选，所有元素取消勾选
+    //情况三：全选元素未勾选，但所有的其他元素都已勾选，全选元素勾选
+    //情况四：所有元素已勾选，但有一个元素被取消勾选，全选元素取消勾选
+    //情况五：所有元素已勾选，点击移除全选tag时，所有元素取消勾选
+
+    //1.切换全选下拉框
+    //2.切换其他下拉框
+    //3.移除全选tag
+    selectAll() {
+      if (this.selectedArray.length < this.options.length) {
+        this.selectedArray = [];
+        this.options.forEach((item) => {
+          this.selectedArray.push(item.value);
+        });
+        this.selectedArray.unshift("全选");
+      } else {
+        this.selectedArray = [];
+      }
+    },
+    changeSelect(val) {
+      //val为目前的选中值
+      if (!val.includes("全选") && val.length === this.options.length) {
+        this.selectedArray.unshift("全选");
+      } else if (
+        val.includes("全选") &&
+        val.length !== this.options.length + 1
+      ) {
+        this.selectedArray = this.selectedArray.filter((item) => {
+          return item !== "全选";
+        });
+      }
+    },
+    removeTag(val) {
+      //移除的tag值
+      //不加这个判断，移除全选tag时就只走changeSelect第一个if判断-还是全选，加了后续就会走这个判断
+      if (val === "全选") {
+        this.selectedArray = [];
+      }
+    },
+  },
+};
+</script>
+```
+
+:::
+
+方法 2:加一个全选复选框
+:::demo
+
+```vue
+<template>
+  <el-select
+    multiple
+    collapse-tags
+    v-model="selectedArray"
+    @change="changeSelect"
+  >
+    <el-checkbox v-model="checked" @change="selectAll">全选</el-checkbox>
+    <el-option
+      v-for="(item, index) in options"
+      :key="index"
+      :label="item.name"
+      :value="item.value"
+    ></el-option>
+  </el-select>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      selectedArray: [],
+      options: [
+        { name: "一一", value: "one" },
+        { name: "二二", value: "tow" },
+        { name: "三三", value: "three" },
+        { name: "四四", value: "four" },
+        { name: "五五", value: "five" },
+      ],
+      checked: false,
+    };
+  },
+  methods: {
+    //1.切换全选复选框
+    //2.切换下拉框
+    selectAll() {
+      this.selectedArray = [];
+      if (this.checked) {
+        this.options.map((item) => {
+          this.selectedArray.push(item.value);
+        });
+      } else {
+        this.selectedArray = [];
+      }
+    },
+    changeSelect(val) {
+      if (val.length === this.options.length) {
+        this.checked = true;
+      } else {
+        this.checked = false;
       }
     },
   },

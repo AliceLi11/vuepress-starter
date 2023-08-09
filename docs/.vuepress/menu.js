@@ -12,7 +12,8 @@ const navList =[
             {text:'函数式编程',link:'/Function/theory'},
             {text:'日常开发问题记录',link:'/Problem/echarts'},
             {text:'Uniapp',link:'/Uniapp/start'},
-            {text:'浏览器工作原理与实践',link:'/Browser/pages/performance'}
+            {text:'浏览器工作原理与实践',link:'/Browser/pages/performance'},
+            {text:'常见边缘性实战',link:'/edgeProblem/fragementation'}
         ]
     },
     { 
@@ -172,6 +173,17 @@ const sidebarList = {
                 ]},
                 {title:"vue2js",path:'/Problem/vue2'},
                 {title:"Css",path:'/Problem/css'}
+            ]
+        }
+    ],
+    '/edgeProblem':[
+        {
+            title:"常见边缘性实战",
+            collapsable:false,
+            children:[
+                {title:"大文件上传",children:[
+                    {title:"分片上传",path:'/edgeProblem/fragementation'}
+                ]},
             ]
         }
     ]
